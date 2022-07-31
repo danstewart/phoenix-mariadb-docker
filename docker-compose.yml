@@ -6,6 +6,7 @@ volumes:
 services:
   app:
     build: .
+    container_name: "{{ app }}-app"
     env_file:
       - .env
     # command: >
@@ -21,12 +22,8 @@ services:
 
   db:
     image: mariadb:latest
+    container_name: "{{ app }}-db"
     env_file:
       - .env
-    environment:
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_DATABASE
     volumes:
       - db:/var/lib/mysql

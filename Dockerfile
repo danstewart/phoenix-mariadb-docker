@@ -1,18 +1,17 @@
 # syntax=docker/dockerfile:1.2
 
-# Base elixir image uses debian buster
-FROM elixir:1.12.3
+FROM elixir:1.13.4-slim
 
 LABEL version="0.0.1"
 
-ENV PHX_VERSION 1.6.0
-ENV NODE_MAJOR 14.17.6
+ENV PHX_VERSION 1.6.11
+ENV NODE_MAJOR 16
 
 # Disable auto-cleanup after install:
 RUN rm /etc/apt/apt.conf.d/docker-clean
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_MAJOR}.x | bash -
 RUN --mount=type=cache,target=/var/cache/apt,id=apt apt-get update && apt-get -y upgrade && apt-get -y install nodejs inotify-tools mariadb-client
 
 RUN useradd --create-home app

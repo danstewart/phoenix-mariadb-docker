@@ -33,6 +33,9 @@ function generate_password {
     < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32}
 }
 
+# Rejig the compose file
+sed -i "s/{{ app }}/$app/g" docker-compose.yml
+
 echo "Generating .env file..."
 [[ -f .env ]] && rm -f .env
 touch .env
@@ -42,11 +45,11 @@ echo "MYSQL_PASSWORD=$(generate_password)" >> .env
 echo "MYSQL_ROOT_PASSWORD=$(generate_password)" >> .env
 
 echo "Building containers..."
-docker-compose build --quiet >$output 2>&1
+docker compose build >$output 2>&1
 
 echo "Generating new phoenix app..."
-echo y | docker-compose run app mix phx.new . --app "$app" --database mysql >$output 2>&1
-docker-compose run app mix deps.get >$output 2>&1
+docker compose run app bash -c "echo y | mix phx.new . --app '$app' --database mysql" >$output 2>&1
+docker compose run app mix deps.get >$output 2>&1
 
 # Tweak the dev.exs config to read from the environment file
 echo "Rejigging the config..."
@@ -57,9 +60,9 @@ perl -p -i -e 's/hostname: .*,/hostname: "db",/' src/config/dev.exs
 perl -p -i -e 's/ip: \{127, 0, 0, 1\}/ip: {0, 0, 0, 0}/' src/config/dev.exs
 
 echo "Initialising database..."
-docker-compose run app mix ecto.create >$output 2>&1
+docker compose run app mix ecto.create >$output 2>&1
 
 echo "Starting container..."
-docker-compose up -d --build app >$output 2>&1
+docker compose up -d --build app >$output 2>&1
 
 echo -e "\nDone! Your phoenix app should now be running on http://localhost:4000"
