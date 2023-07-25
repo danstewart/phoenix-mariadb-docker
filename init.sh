@@ -39,10 +39,11 @@ sed -i "s/{{ app }}/$app/g" docker-compose.yml
 echo "Generating .env file..."
 [[ -f .env ]] && rm -f .env
 touch .env
-echo "MYSQL_DATABASE=${app}" >> .env
-echo "MYSQL_USER=app" >> .env
-echo "MYSQL_PASSWORD=$(generate_password)" >> .env
-echo "MYSQL_ROOT_PASSWORD=$(generate_password)" >> .env
+echo "MARIADB_DATABASE=${app}" >> .env
+echo "MARIADB_USER=app" >> .env
+echo "MARIADB_PASSWORD=$(generate_password)" >> .env
+echo "MARIADB_ROOT_PASSWORD=$(generate_password)" >> .env
+echo "MARIADB_ROOT_HOST=%" >> .env
 
 echo "Building containers..."
 docker compose build >$output 2>&1
@@ -53,9 +54,9 @@ docker compose run app mix deps.get >$output 2>&1
 
 # Tweak the dev.exs config to read from the environment file
 echo "Rejigging the config..."
-perl -p -i -e 's/username: .*,/username: System.get_env("MYSQL_USER"),/' src/config/dev.exs
-perl -p -i -e 's/password: .*,/password: System.get_env("MYSQL_PASSWORD"),/' src/config/dev.exs
-perl -p -i -e 's/database: .*,/database: System.get_env("MYSQL_DATABASE"),/' src/config/dev.exs
+perl -p -i -e 's/username: .*,/username: System.get_env("MARIADB_USER"),/' src/config/dev.exs
+perl -p -i -e 's/password: .*,/password: System.get_env("MARIADB_PASSWORD"),/' src/config/dev.exs
+perl -p -i -e 's/database: .*,/database: System.get_env("MARIADB_DATABASE"),/' src/config/dev.exs
 perl -p -i -e 's/hostname: .*,/hostname: "db",/' src/config/dev.exs
 perl -p -i -e 's/ip: \{127, 0, 0, 1\}/ip: {0, 0, 0, 0}/' src/config/dev.exs
 

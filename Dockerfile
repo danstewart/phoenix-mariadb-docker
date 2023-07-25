@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1.2
 
-FROM elixir:1.13.4-slim
+FROM elixir:1.15.4-slim
 
 LABEL version="0.0.1"
 
-ENV PHX_VERSION 1.6.11
-ENV NODE_MAJOR 16
+ENV PHX_VERSION 1.7.7
+ENV NODE_MAJOR 18
 
 # Disable auto-cleanup after install:
 RUN rm /etc/apt/apt.conf.d/docker-clean

@@ -3,6 +3,10 @@ version: "2.4"
 volumes:
   db:
 
+networks:
+  {{ app }}-default:
+    driver: bridge
+
 services:
   app:
     build: .
@@ -19,11 +23,15 @@ services:
       - 4000:4000
     depends_on:
       - db
+    networks:
+      - {{ app }}-default
 
   db:
-    image: mariadb:10.8.3
+    image: mariadb:10.11.4
     container_name: "{{ app }}-db"
     env_file:
       - .env
     volumes:
       - db:/var/lib/mysql
+    networks:
+      - {{ app }}-default
