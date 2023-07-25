@@ -65,4 +65,10 @@ docker compose run app mix ecto.create >$output 2>&1
 echo "Starting container..."
 docker compose up -d --build app >$output 2>&1
 
+# Set up .gitignore
+rm -f .gitignore
+echo "src/_build/" >> .gitignore
+echo "src/deps/" >> .gitignore
+echo ".env" >> .gitignore
+
 echo -e "\nDone! Your phoenix app should now be running on http://localhost:4000"
