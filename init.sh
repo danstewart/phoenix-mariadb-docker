@@ -73,3 +73,7 @@ echo "src/deps/" >> .gitignore
 echo ".env" >> .gitignore
 
 echo -e "\nDone! Your phoenix app should now be running on http://localhost:4000"
+
+# Clean up self
+rm -rf .git
+rm -f init.sh
