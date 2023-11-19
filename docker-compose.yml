@@ -13,8 +13,6 @@ services:
     container_name: "{{ app }}-app"
     env_file:
       - .env
-    # command: >
-    #   sh -c "cd assets && npm rebuild node-sass && cd .. && mix phx.server"
     volumes:
       - ./src:/home/app/phoenix
     expose:

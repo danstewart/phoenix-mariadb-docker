@@ -50,7 +50,6 @@ docker compose build >$output 2>&1
 
 echo "Generating new phoenix app..."
 docker compose run app bash -c "echo y | mix phx.new . --app '$app' --database mysql" >$output 2>&1
-docker compose run app mix deps.get >$output 2>&1
 
 # Tweak the dev.exs config to read from the environment file
 echo "Rejigging the config..."
