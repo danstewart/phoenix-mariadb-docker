@@ -30,7 +30,7 @@ if [[ -n $verbose && $verbose == 1 ]]; then
 fi
 
 function generate_password {
-    < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32}
+    < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c32
 }
 
 # Rejig the compose file

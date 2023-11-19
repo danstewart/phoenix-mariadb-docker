@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd phoenix
+cd phoenix || { echo "phoenix directory not found"; exit 1; }
 
 # Wait until db is ready
 until mysql -hdb -uroot -p${MARIADB_ROOT_PASSWORD} --silent -e "SELECT 1;" >/dev/null; do

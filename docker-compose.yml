@@ -27,7 +27,7 @@ services:
       - {{ app }}-default
 
   db:
-    image: mariadb:10.11.4
+    image: mariadb:11.1.3
     container_name: "{{ app }}-db"
     env_file:
       - .env
