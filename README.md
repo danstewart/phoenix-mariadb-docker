@@ -5,8 +5,6 @@ On first time set up run the `init.sh` script to create a new phoenix applicatio
 ```shell
 app="my-app-name"
 git clone git@github.com:danstewart/phoenix-mariadb-docker.git "$app"
-rm -rf .git .gitignore
-echo ".env" >> .gitignore
 ./init.sh --app "$app"
 ```
 
